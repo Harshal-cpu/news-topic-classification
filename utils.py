@@ -11,20 +11,18 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
 # Download required NLTK data
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', quiet=True)
+NLTK_RESOURCES = {
+    'corpora/stopwords': 'stopwords',
+    'tokenizers/punkt': 'punkt',
+    'tokenizers/punkt_tab': 'punkt_tab',
+    'corpora/wordnet': 'wordnet',
+}
 
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', quiet=True)
-
-try:
-    nltk.data.find('corpora/wordnet')
-except LookupError:
-    nltk.download('wordnet', quiet=True)
+for resource_path, resource_name in NLTK_RESOURCES.items():
+    try:
+        nltk.data.find(resource_path)
+    except LookupError:
+        nltk.download(resource_name, quiet=True)
 
 
 class TextPreprocessor:
