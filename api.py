@@ -163,13 +163,13 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
 
+# Load model at startup (runs when gunicorn imports the module too)
+load_model()
+
 if __name__ == '__main__':
     print("="*70)
     print("NEWS CLASSIFICATION API")
     print("="*70)
-    
-    # Load model
-    load_model()
     
     print("\nStarting Flask server...")
     print("API available at: http://localhost:5000")
