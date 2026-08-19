@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Classifier - AI-Powered News Categorization</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <header class="app-header">
+            <h1 class="app-title">📰 News Classifier</h1>
+            <p class="app-subtitle">AI-Powered News Article Categorization | Instant &amp; Accurate</p>
+        </header>
+
+        <main class="content">
+            <section class="card main-card">
+                <h2>📝 Enter News Article</h2>
+                <textarea id="news-text" placeholder="Paste your news article here or try one of the sample articles below..."></textarea>
+
+                <h3>💡 Try Sample Articles:</h3>
+                <div class="samples" id="samples"></div>
+
+                <button id="classify-btn" class="primary-btn">🔍 Classify Article</button>
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>🤖 Analyzing article...</p>
+                </div>
+                <p id="error-msg" class="error hidden"></p>
+            </section>
+
+            <aside class="sidebar">
+                <section class="card">
+                    <h2>ℹ️ About</h2>
+                    <p>This AI-powered tool automatically categorizes news articles into 20 different topics using advanced Natural Language Processing.</p>
+                    <p><strong>How it works:</strong></p>
+                    <ol>
+                        <li>Paste or type your news article</li>
+                        <li>Click "Classify Article"</li>
+                        <li>Get instant categorization</li>
+                    </ol>
+                    <p><strong>Categories include:</strong> Technology, Sports, Science, Politics, Business &amp; 15 more!</p>
+                </section>
+                <section class="card">
+                    <h2>📈 Statistics</h2>
+                    <div class="stat"><span class="stat-label">AI Accuracy</span><span class="stat-value">86%</span></div>
+                    <div class="stat"><span class="stat-label">Categories</span><span class="stat-value">20</span></div>
+                    <div class="stat"><span class="stat-label">Trained On</span><span class="stat-value">18,000+ articles</span></div>
+                </section>
+            </aside>
+        </main>
+
+        <section id="results" class="card results hidden">
+            <h2>🎯 Classification Result</h2>
+            <div id="result-box" class="result-box"></div>
+            <h3>📊 Confidence Scores</h3>
+            <div id="confidence-bars"></div>
+            <details>
+                <summary>📄 View Article Preview</summary>
+                <p id="article-preview"></p>
+            </details>
+        </section>
+
+        <footer>
+            <p>🤖 Powered by Machine Learning &amp; Natural Language Processing</p>
+            <p>Built with Python, scikit-learn, Flask &amp; JavaScript</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

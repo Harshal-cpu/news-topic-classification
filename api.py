@@ -4,6 +4,7 @@ Provides endpoint for real-time predictions
 """
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pickle
 import os
 from sklearn.datasets import fetch_20newsgroups
@@ -12,6 +13,7 @@ from sklearn.svm import LinearSVC
 from utils import TextPreprocessor
 
 app = Flask(__name__)
+CORS(app)
 
 # Global variables for model and vectorizer
 model = None
@@ -57,25 +59,35 @@ def train_and_save_model():
     with open('models/categories.pkl', 'wb') as f:
         pickle.dump(category_names, f)
     
-    print("✓ Model trained and saved!")
+    print("[OK] Model trained and saved!")
 
 
 def load_model():
     """Load trained model"""
     global model, vectorizer, category_names, preprocessor
-    
-    if not os.path.exists('models/model.pkl'):
+
+    model_paths = [
+        ('models/news_classifier_model.pkl', 'models/news_classifier_vectorizer.pkl', 'models/news_classifier_categories.pkl'),
+        ('models/model.pkl', 'models/vectorizer.pkl', 'models/categories.pkl'),
+    ]
+
+    loaded = False
+    for m_path, v_path, c_path in model_paths:
+        if os.path.exists(m_path) and os.path.exists(v_path) and os.path.exists(c_path):
+            with open(m_path, 'rb') as f:
+                model = pickle.load(f)
+            with open(v_path, 'rb') as f:
+                vectorizer = pickle.load(f)
+            with open(c_path, 'rb') as f:
+                category_names = pickle.load(f)
+            loaded = True
+            break
+
+    if not loaded:
         train_and_save_model()
-    
-    with open('models/model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    with open('models/vectorizer.pkl', 'rb') as f:
-        vectorizer = pickle.load(f)
-    with open('models/categories.pkl', 'rb') as f:
-        category_names = pickle.load(f)
-    
+
     preprocessor = TextPreprocessor(use_lemmatization=True)
-    print("✓ Model loaded successfully!")
+    print("[OK] Model loaded successfully!")
 
 
 @app.route('/')
@@ -159,9 +171,9 @@ if __name__ == '__main__':
     # Load model
     load_model()
     
-    print("\n🚀 Starting Flask server...")
-    print("📍 API available at: http://localhost:5000")
-    print("\n📝 Example usage:")
+    print("\nStarting Flask server...")
+    print("API available at: http://localhost:5000")
+    print("\nExample usage:")
     print('   curl -X POST http://localhost:5000/predict \\')
     print('        -H "Content-Type: application/json" \\')
     print('        -d "{\\"text\\":\\"NASA launched a new satellite\\"}"')
